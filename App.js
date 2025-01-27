@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GlobalStyles } from './constants/styles';
 import { Ionicons} from '@expo/vector-icons';
+import ExpensesContextProvider from './store/expenses-context';
+import IconBtn from './components/ui/IconBtn';
 import ManageExpense from './screens/ManageScreen';
 import RecentExpense from './screens/RecentExpensesScreen';
 import AllExpense from './screens/AllExpensesScreen';
@@ -12,12 +14,16 @@ const BottomTab = createBottomTabNavigator();
 
 function ExpensesOverview(){
   return (
-    <BottomTab.Navigator screenOptions={{
+    <BottomTab.Navigator screenOptions={({navigation})=>({
       headerStyle:{backgroundColor:GlobalStyles.colors.primary500 },
       headerTintColor: 'white',
       tabBarStyle: {backgroundColor: GlobalStyles.colors.primary500},
       tabBarActiveTintColor: GlobalStyles.colors.accent500,
-    }}>
+      headerRight: ({tintColor}) =>
+        <IconBtn icon="add" size={24} color={tintColor} pressedBtn={()=>{
+          navigation.navigate('ManageScreen');
+        }} />
+    })}>
       <BottomTab.Screen name="RecentExpense" component={RecentExpense} options={{
         title: 'Recent Expenses',
         tabBarLabel: 'Recent',
@@ -36,14 +42,21 @@ export default function App() {
   return (
     <>
       <StatusBar style="auto" />
+      <ExpensesContextProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='ExpensesOverview'>
-          <Stack.Screen name="ManageScreen" component={ManageExpense} />
+        <Stack.Navigator initialRouteName='ExpensesOverview' screenOptions={{
+          headerStyle: {backgroundColor: GlobalStyles.colors.primary500},
+          headerTintColor: 'white',
+        }}>
+          <Stack.Screen name="ManageScreen" component={ManageExpense} options={{
+            presentation:'modal'
+          }} />
           <Stack.Screen name="ExpensesOverview" component={ExpensesOverview} options={{
             headerShown: false  }}
             />
         </Stack.Navigator>
       </NavigationContainer>
+      </ExpensesContextProvider>
     </>
   );
 }
