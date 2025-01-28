@@ -1,11 +1,15 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TextInput} from 'react-native';
+import { useContext } from 'react';
+import { ExpensesContext } from '../store/expenses-context'
 import { useLayoutEffect } from 'react';
 import IconBtn from '../components/ui/IconBtn';
 import { GlobalStyles } from '../constants/styles';
 import Button from '../components/ui/buttons';
+import ExpenseForm from '../components/manageExpense/ExpenseForm';
 
 
 function ManageScreen({route, navigation}){
+    const expenses = useContext(ExpensesContext);
     const editedExpense = route.params?.expenseId; //! This '?' prevent falling app if expenseId is undefined
 
     useLayoutEffect(()=>{
@@ -15,6 +19,7 @@ function ManageScreen({route, navigation}){
     },[navigation,editedExpense]);
 
     function deleteExpense(){
+        expenses.deleteExpense(editedExpense);
         navigation.goBack();
     };
 
@@ -24,11 +29,18 @@ function ManageScreen({route, navigation}){
     };
 
     function confirm(){
+        console.log(editedExpense);
+        if(editedExpense){
+            expenses.updateExpense(editedExpense,{description: 'test', amount: 19.99, date: new Date('2024-05-19')});
+        }else{
+            expenses.addExpense({description: 'test', amount: 19.99, date: new Date('2025-01-27')});
+        }
         navigation.goBack();
     };
 
     return (
         <View style={styles.container}>
+            <ExpenseForm />
             <View style={styles.buttonsWrapper}>
                 <Button style={styles.buttonStyle} mode="flat" btnPressed={cancel}>Cancel</Button>
                 <Button style={styles.buttonStyle} btnPressed={confirm}>{editedExpense ? 'Update' : 'Add'}</Button>
@@ -56,7 +68,8 @@ const styles = StyleSheet.create({
     buttonsWrapper:{
         flexDirection: 'row',
         justifyContent:'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginVertical: 16,
     },
     buttonStyle:{
         minWidth: 120,

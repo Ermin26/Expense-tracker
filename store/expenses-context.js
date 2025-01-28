@@ -23,7 +23,7 @@ const Expenses = [
         id: '4',
         description: 'Book',
         amount: 15.99,
-        date: new Date('2023-02-19'),
+        date: new Date('2025-01-28'),
     },
     {
         id: '5',
@@ -41,13 +41,13 @@ const Expenses = [
         id: '7',
         description: 'Bananas',
         amount: 5.99,
-        date: new Date('2024-12-19'),
+        date: new Date('2025-01-22'),
     },
     {
         id: '8',
         description: 'Book',
         amount: 15.99,
-        date: new Date('2023-02-19'),
+        date: new Date('2025-01-27'),
     },
 ]
 
@@ -59,12 +59,12 @@ export const ExpensesContext = createContext({
     updateExpense: (id, {description, amoun, date})=>{},
 });
 
-function expensesReducer(stat, action){
+function expensesReducer(state, action){
     switch(action.type){
         case 'ADD':
             const id = new Date().toString() + Math.random().toString();
             return [{...action.payload, id: id},...state]
-        case 'Update':
+        case 'UPDATE':
             const updateItemIndex = state.findIndex((expense)=> expense.id === action.payload.id);
             const updateExpense = state[updateItemIndex];
             const updateItem = {...updateExpense, ...action.payload.data};
