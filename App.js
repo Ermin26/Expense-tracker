@@ -48,9 +48,8 @@ export default function App() {
           headerStyle: {backgroundColor: GlobalStyles.colors.primary500},
           headerTintColor: 'white',
         }}>
-          <Stack.Screen name="ManageScreen" component={ManageExpense} options={{
-            presentation:'modal'
-          }} />
+          <Stack.Screen name="ManageScreen" component={ManageExpense} 
+          options={{presentation:'modal'}} />
           <Stack.Screen name="ExpensesOverview" component={ExpensesOverview} options={{
             headerShown: false  }}
             />
