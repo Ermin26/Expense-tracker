@@ -17,7 +17,7 @@ function ExpenseItem({id,description, amount, date}){
     return(
         <Pressable onPress={expensePressHandler} style={({pressed}) => pressed && styles.pressed}>
             <View style={styles.expenseItem}>
-                <View>
+                <View style={styles.textContainer}>
                     <Text style={[styles.textBase,styles.description]}>{description}</Text>
                     <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
                 </View>
@@ -40,12 +40,17 @@ const styles= StyleSheet.create({
         marginVertical: 8,
         backgroundColor: GlobalStyles.colors.primary500,
         justifyContent: 'space-between',
+        alignItems: 'center',
         borderRadius: 6,
         elevation: 3,
         shadowColor: GlobalStyles.colors.gray500,
         shadowRadius: 4,
         shadowOffset: {width: 1, height: 1},
         shadowOpacity: 0.4
+    },
+    textContainer:{
+        maxWidth: '70%',
+        padding: 4
     },
     textBase:{
         color: GlobalStyles.colors.primary50,
@@ -62,6 +67,7 @@ const styles= StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius:4,
+        height: 50,
     },
     amount:{
         color: GlobalStyles.colors.primary500,

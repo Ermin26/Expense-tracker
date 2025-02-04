@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import { useContext } from 'react';
 import { ExpensesContext } from '../store/expenses-context'
 import ExpensesOutput from '../components/ExpensesOutput/ExpensesOutput';
+import { getExpense } from '../util/http'
 
 function AllExpensesScreen(){
     const expensesCtx = useContext(ExpensesContext);
